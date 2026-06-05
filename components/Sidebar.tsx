@@ -79,7 +79,6 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: SidebarProp
           background: rgba(0, 0, 0, 0.5);
           opacity: 0;
           pointer-events: none;
-          transition: opacity 0.3s ease-out;
           z-index: 40;
         }
 
@@ -95,18 +94,17 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: SidebarProp
           top: 0;
           width: 240px;
           height: 100vh;
-          background: #13131a;
-          border-right: 1px solid #1e1e2e;
+          background: #f5f5f5;
+          border-right: 1px solid #e0e0e0;
           display: flex;
           flex-direction: column;
           padding: 28px 0;
           transform: translateX(-100%);
-          transition: transform 0.3s ease-out;
           z-index: 50;
           pointer-events: auto;
           overflow-y: auto;
           font-family: 'DM Sans', sans-serif;
-          box-shadow: 2px 0 15px rgba(0, 0, 0, 0.4);
+          box-shadow: 1px 0 8px rgba(0, 0, 0, 0.1);
         }
 
         .sidebar.open {
@@ -139,28 +137,46 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: SidebarProp
         /* Sidebar header/logo */
         .sidebar-header {
           padding: 0 24px 32px;
-          border-bottom: 1px solid #1e1e2e;
+          border-bottom: 1px solid #e0e0e0;
+          text-align: center;
+        }
+
+        .sidebar-logo-container {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 12px;
+          margin-bottom: 8px;
+        }
+
+        .sidebar-logo-image {
+          width: 64px;
+          height: 64px;
+          object-fit: cover;
+          border-radius: 50%;
+          border: 2px solid #2196F3;
         }
 
         .sidebar-logo {
           font-family: 'Syne', sans-serif;
-          font-size: 20px;
+          font-size: 18px;
           font-weight: 800;
           letter-spacing: -0.02em;
-          color: #e8e8f0;
+          color: #1a1a1a;
           margin: 0;
         }
 
         .sidebar-logo-accent {
-          color: #d4af37;
+          color: #4CAF50;
         }
 
         .sidebar-subtext {
-          font-size: 11px;
-          color: #44445a;
+          font-size: 10px;
+          color: #666666;
           margin-top: 2px;
           font-weight: 500;
           letter-spacing: 0.06em;
+          text-transform: uppercase;
         }
 
         /* Navigation section */
@@ -189,9 +205,8 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: SidebarProp
           font-family: 'DM Sans', sans-serif;
           font-size: 14px;
           font-weight: 500;
-          color: #666680;
+          color: #666666;
           border-left: 3px solid transparent;
-          transition: all 0.18s ease;
           user-select: none;
           letter-spacing: 0.01em;
           margin: 0 12px;
@@ -199,32 +214,31 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: SidebarProp
         }
 
         .nav-item:hover {
-          color: #c4c4e0;
-          background: #1a1a26;
-          border-left-color: #4b3121;
+          color: #2196F3;
+          background: #f0f0f0;
+          border-left-color: #2196F3;
         }
 
         .nav-item.active {
-          color: #d4af37;
-          background: linear-gradient(90deg, rgba(212, 175, 55, 0.1) 0%, transparent 100%);
-          border-left-color: #d4af37;
+          color: #2196F3;
+          background: #e3f2fd;
+          border-left-color: #2196F3;
           font-weight: 600;
         }
 
         .nav-item.active svg {
-          color: #d4af37;
+          color: #2196F3;
         }
 
         .nav-item svg {
           color: currentColor;
-          transition: color 0.18s ease;
           flex-shrink: 0;
         }
 
         /* Sidebar footer */
         .sidebar-footer {
           padding: 20px 24px;
-          border-top: 1px solid #1e1e2e;
+          border-top: 1px solid #e0e0e0;
           margin-top: auto;
         }
 
@@ -239,7 +253,7 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: SidebarProp
           width: 32px;
           height: 32px;
           border-radius: 50%;
-          background: linear-gradient(135deg, #4b3121, #d4af37);
+          background: linear-gradient(135deg, #2196F3, #4CAF50);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -257,7 +271,7 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: SidebarProp
         .user-name {
           font-size: 13px;
           font-weight: 600;
-          color: #c4c4e0;
+          color: #333333;
           margin: 0;
           white-space: nowrap;
           overflow: hidden;
@@ -266,7 +280,7 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: SidebarProp
 
         .user-email {
           font-size: 11px;
-          color: #44445a;
+          color: #888888;
           margin: 0;
           white-space: nowrap;
           overflow: hidden;
@@ -276,11 +290,10 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: SidebarProp
         .logout-btn {
           padding: 12px 24px;
           cursor: pointer;
-          color: #666680;
+          color: #666666;
           border: none;
           background: transparent;
           border-radius: 8px;
-          transition: all 0.2s ease;
           font-size: 14px;
           font-weight: 500;
           width: 100%;
@@ -289,12 +302,12 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: SidebarProp
         }
 
         .logout-btn:hover {
-          color: #ff6666;
-          background: rgba(255, 68, 68, 0.05);
+          color: #FF5252;
+          background: #ffebee;
         }
 
         .logout-btn:active {
-          background: rgba(255, 68, 68, 0.1);
+          background: #ffcdd2;
         }
 
         /* Mobile adjustments */
@@ -349,10 +362,30 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: SidebarProp
       <aside className={`sidebar${isSidebarOpen ? " open" : ""}`} role="navigation">
         {/* Logo Section */}
         <div className="sidebar-header">
+          <div className="sidebar-logo-container">
+            <img 
+              src="/images/puthan.jpg" 
+              alt="Puthankada Logo" 
+              className="sidebar-logo-image"
+            />
+          </div>
           <h1 className="sidebar-logo">
-            GRACIO<span className="sidebar-logo-accent">ADMIN</span>
+            PUTHAN<span className="sidebar-logo-accent">KADA</span>
           </h1>
-          <p className="sidebar-subtext">CONTROL PANEL</p>
+          <div style={{
+            display: 'inline-block',
+            background: 'linear-gradient(135deg, #f57c00, #4caf50)',
+            padding: '4px 12px',
+            borderRadius: '6px',
+            marginTop: '8px'
+          }}>
+            <p className="sidebar-subtext" style={{ 
+              color: '#fff',
+              fontWeight: '700',
+              letterSpacing: '0.1em',
+              margin: 0
+            }}>ADMIN PANEL</p>
+          </div>
         </div>
 
         {/* Navigation */}

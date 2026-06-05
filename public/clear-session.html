@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clear Session - Puthankada Admin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f0f13;
+            color: #e8e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: #13131a;
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid #1e1e2e;
+            text-align: center;
+            max-width: 500px;
+        }
+        h1 {
+            color: #f57c00;
+            margin-bottom: 20px;
+        }
+        button {
+            background: #f57c00;
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover {
+            background: #e65100;
+        }
+        .success {
+            color: #4caf50;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .info {
+            color: #666680;
+            font-size: 14px;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Fix Login Issues</h1>
+        <p class="info">
+            This will clear your old session and allow you to login with the new admin credentials.
+        </p>
+        
+        <button onclick="clearAndRedirect()">Clear Session & Go to Login</button>
+        
+        <div id="result"></div>
+        
+        <p class="info" style="margin-top: 30px; font-size: 12px;">
+            <strong>New Admin Credentials:</strong><br>
+            Email: admin@puthankada.com<br>
+            Password: puthankada123
+        </p>
+    </div>
+
+    <script>
+        function clearAndRedirect() {
+            // Clear localStorage
+            localStorage.clear();
+            
+            // Clear sessionStorage
+            sessionStorage.clear();
+            
+            // Show success message
+            document.getElementById('result').innerHTML = '<p class="success">✅ Session cleared! Redirecting to login...</p>';
+            
+            // Redirect to login after 1 second
+            setTimeout(() => {
+                window.location.href = '/login';
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

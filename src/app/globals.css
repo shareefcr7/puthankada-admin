@@ -1,13 +1,35 @@
 @import "tailwindcss";
 
+/* Puthankada Brand Colors */
 :root {
+  /* Primary brand colors from logo */
+  --puthankada-orange: #f57c00;
+  --puthankada-orange-light: #ff9800;
+  --puthankada-orange-dark: #e65100;
+  --puthankada-green: #4caf50;
+  --puthankada-green-light: #66bb6a;
+  --puthankada-green-dark: #388e3c;
+  
+  /* Background and foreground */
   --background: #ffffff;
   --foreground: #171717;
+  
+  /* Additional brand colors */
+  --accent-orange-soft: rgba(245, 124, 0, 0.1);
+  --accent-green-soft: rgba(76, 175, 80, 0.1);
+  --text-primary: #2e2e2e;
+  --text-secondary: #666666;
+  --border-light: #e0e0e0;
+  --surface-light: #f8f9fa;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-puthankada-orange: var(--puthankada-orange);
+  --color-puthankada-green: var(--puthankada-green);
+  --color-accent-orange-soft: var(--accent-orange-soft);
+  --color-accent-green-soft: var(--accent-green-soft);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -16,6 +38,10 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --text-primary: #e0e0e0;
+    --text-secondary: #a0a0a0;
+    --border-light: #2e2e2e;
+    --surface-light: #1a1a1a;
   }
 }
 
@@ -123,4 +149,76 @@ body {
   h1 {
     font-size: 18px !important;
   }
+}
+
+/* ========== PUTHANKADA BRAND UTILITIES ========== */
+
+/* Brand color utilities */
+.text-puthankada-orange {
+  color: var(--puthankada-orange) !important;
+}
+
+.text-puthankada-green {
+  color: var(--puthankada-green) !important;
+}
+
+.bg-puthankada-orange {
+  background-color: var(--puthankada-orange) !important;
+}
+
+.bg-puthankada-green {
+  background-color: var(--puthankada-green) !important;
+}
+
+.border-puthankada-orange {
+  border-color: var(--puthankada-orange) !important;
+}
+
+.border-puthankada-green {
+  border-color: var(--puthankada-green) !important;
+}
+
+/* Brand gradient utilities */
+.bg-puthankada-gradient {
+  background: linear-gradient(135deg, var(--puthankada-orange), var(--puthankada-green)) !important;
+}
+
+.bg-puthankada-gradient-soft {
+  background: linear-gradient(135deg, var(--accent-orange-soft), var(--accent-green-soft)) !important;
+}
+
+/* Button styles with brand colors */
+.btn-puthankada-primary {
+  background-color: var(--puthankada-orange);
+  color: white;
+  border: 1px solid var(--puthankada-orange);
+  transition: all 0.2s ease;
+}
+
+.btn-puthankada-primary:hover {
+  background-color: var(--puthankada-orange-dark);
+  border-color: var(--puthankada-orange-dark);
+}
+
+.btn-puthankada-secondary {
+  background-color: var(--puthankada-green);
+  color: white;
+  border: 1px solid var(--puthankada-green);
+  transition: all 0.2s ease;
+}
+
+.btn-puthankada-secondary:hover {
+  background-color: var(--puthankada-green-dark);
+  border-color: var(--puthankada-green-dark);
+}
+
+/* Card styles with brand accent */
+.card-puthankada {
+  border-left: 4px solid var(--puthankada-orange);
+  background: var(--surface-light);
+}
+
+.card-puthankada:hover {
+  border-left-color: var(--puthankada-green);
+  box-shadow: 0 4px 12px rgba(245, 124, 0, 0.1);
 }

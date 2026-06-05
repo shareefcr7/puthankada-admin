@@ -97,9 +97,36 @@ export default function LoginPage() {
         width: "100%",
         maxWidth: "400px"
       }}>
-        <h1 style={{ color: "#fff", marginBottom: "24px", fontFamily: "'Syne', sans-serif", fontSize: "24px", textAlign: "center" }}>
-          GRACIO ADMIN
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "12px",
+          marginBottom: "24px"
+        }}>
+          <img 
+            src="/images/puthan.jpg" 
+            alt="Puthankada Logo" 
+            style={{ width: "80px", height: "80px", objectFit: "cover", borderRadius: "50%", border: "2px solid #f57c00" }}
+          />
+        </div>
+        <h1 style={{ color: "#fff", marginBottom: "8px", fontFamily: "'Syne', sans-serif", fontSize: "24px", textAlign: "center", fontWeight: 800 }}>
+          PUTHANKADA
         </h1>
+        <div style={{
+          display: 'inline-block',
+          background: 'linear-gradient(135deg, #f57c00, #4caf50)',
+          padding: '6px 16px',
+          borderRadius: '8px',
+          marginBottom: '24px'
+        }}>
+          <span style={{ 
+            color: '#fff',
+            fontSize: '14px',
+            fontWeight: '700',
+            letterSpacing: '0.15em'
+          }}>ADMIN PANEL</span>
+        </div>
 
         {error && (
           <div style={{ background: "#ef444420", color: "#ef4444", padding: "12px", borderRadius: "8px", marginBottom: "20px", fontSize: "14px" }}>
@@ -153,7 +180,7 @@ export default function LoginPage() {
             disabled={loading}
             style={{
               padding: "14px",
-              background: "#4b3121",
+              background: "#f57c00",
               color: "#fff",
               border: "none",
               borderRadius: "8px",

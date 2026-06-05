@@ -1,0 +1,14 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Orange background circle -->
+  <circle cx="16" cy="16" r="16" fill="#f57c00"/>
+  
+  <!-- Shopping cart icon in white -->
+  <path d="M6 6h3l1.68 8.39a2 2 0 0 0 2 1.61h8.64a2 2 0 0 0 2-1.61L25 8H8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Wheels -->
+  <circle cx="11" cy="24" r="2" fill="white"/>
+  <circle cx="22" cy="24" r="2" fill="white"/>
+  
+  <!-- Green accent dot -->
+  <circle cx="23" cy="9" r="2" fill="#4caf50"/>
+</svg>
