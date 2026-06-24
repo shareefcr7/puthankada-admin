@@ -3,19 +3,19 @@
 /* Puthankada Brand Colors */
 :root {
   /* Primary brand colors from logo */
-  --puthankada-orange: #f57c00;
-  --puthankada-orange-light: #ff9800;
-  --puthankada-orange-dark: #e65100;
+  --puthankada-orange: #d32f2f;
+  --puthankada-orange-light: #ef5350;
+  --puthankada-orange-dark: #b71c1c;
   --puthankada-green: #f44336;
   --puthankada-green-light: #ef5350;
-  --puthankada-green-dark: #b71c1c;
+  --puthankada-green-dark: #d32f2f;
   
   /* Background and foreground */
   --background: #ffffff;
   --foreground: #171717;
   
   /* Additional brand colors */
-  --accent-orange-soft: rgba(245, 124, 0, 0.1);
+  --accent-orange-soft: rgba(211, 47, 47, 0.1);
   --accent-green-soft: rgba(244, 67, 54, 0.1);
   --text-primary: #2e2e2e;
   --text-secondary: #666666;
