@@ -6,9 +6,9 @@
   --puthankada-orange: #f57c00;
   --puthankada-orange-light: #ff9800;
   --puthankada-orange-dark: #e65100;
-  --puthankada-green: #4caf50;
-  --puthankada-green-light: #66bb6a;
-  --puthankada-green-dark: #388e3c;
+  --puthankada-green: #f44336;
+  --puthankada-green-light: #ef5350;
+  --puthankada-green-dark: #b71c1c;
   
   /* Background and foreground */
   --background: #ffffff;
@@ -16,7 +16,7 @@
   
   /* Additional brand colors */
   --accent-orange-soft: rgba(245, 124, 0, 0.1);
-  --accent-green-soft: rgba(76, 175, 80, 0.1);
+  --accent-green-soft: rgba(244, 67, 54, 0.1);
   --text-primary: #2e2e2e;
   --text-secondary: #666666;
   --border-light: #e0e0e0;
