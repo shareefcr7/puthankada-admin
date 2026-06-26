@@ -51,12 +51,28 @@ export default function Banners() {
   useEffect(() => { fetchBanners(); }, [fetchBanners]);
 
   const toBase64 = (file: File): Promise<string> =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result as string);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result as string);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+
+// Upload base64 image to Cloudinary (unsigned upload)
+const uploadToCloudinary = async (dataUrl: string): Promise<string> => {
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+  const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
+  if (!cloudName || !uploadPreset) return dataUrl; // fallback to original data
+  const form = new FormData();
+  form.append('file', dataUrl);
+  form.append('upload_preset', uploadPreset);
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, {
+    method: 'POST',
+    body: form,
+  });
+  const json = await res.json();
+  return json.secure_url || dataUrl;
+};
 
   const handleFile = async (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -87,27 +103,39 @@ export default function Banners() {
   };
 
   const saveBanners = async () => {
-    setLoading(true);
-    try {
-      const authToken = localStorage.getItem("token") || "";
-      const res = await fetch(`${api}/banner/bulk`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: authToken },
-        body: JSON.stringify({ banners }),
-      });
-      if (res.ok) {
-        alert("Banners updated successfully!");
-        fetchBanners();
-      } else {
-        const data = await res.json();
-        alert(data.error || "Failed to update banners");
-      }
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
+  setLoading(true);
+  try {
+    const authToken = localStorage.getItem("token") || "";
+    // Upload images for each banner
+    const processedBanners = await Promise.all(
+      banners.map(async (b) => {
+        const desktop = b.desktopImage && b.desktopImage.startsWith('data:')
+          ? await uploadToCloudinary(b.desktopImage)
+          : b.desktopImage;
+        const mobile = b.mobileImage && b.mobileImage.startsWith('data:')
+          ? await uploadToCloudinary(b.mobileImage)
+          : b.mobileImage;
+        return { ...b, desktopImage: desktop, mobileImage: mobile };
+      })
+    );
+    const res = await fetch(`${api}/banner/bulk`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: authToken },
+      body: JSON.stringify({ banners: processedBanners }),
+    });
+    if (res.ok) {
+      alert("Banners updated successfully!");
+      fetchBanners();
+    } else {
+      const data = await res.json();
+      alert(data.error || "Failed to update banners");
     }
-  };
+  } catch (err) {
+    console.error(err);
+  } finally {
+    setLoading(false);
+  }
+};
 
   // Remove a single image (desktop or mobile)
   const removeImage = (index: number, type: "desktop" | "mobile") => {

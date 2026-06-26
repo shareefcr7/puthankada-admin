@@ -22,12 +22,28 @@ const CSS = `
 `;
 
 const toBase64 = (file: File): Promise<string> =>
-  new Promise((res, rej) => {
-    const r = new FileReader();
-    r.onloadend = () => res(r.result as string);
-    r.onerror = rej;
-    r.readAsDataURL(file);
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result as string);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
   });
+
+// Upload base64 image to Cloudinary (unsigned upload)
+const uploadToCloudinary = async (dataUrl: string): Promise<string> => {
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+  const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
+  if (!cloudName || !uploadPreset) return dataUrl; // fallback
+  const form = new FormData();
+  form.append('file', dataUrl);
+  form.append('upload_preset', uploadPreset);
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, {
+    method: 'POST',
+    body: form,
+  });
+  const json = await res.json();
+  return json.secure_url || dataUrl;
+};
 
 export default function Categories() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -74,56 +90,62 @@ export default function Categories() {
   };
 
   const save = async () => {
-    if (!name.trim()) return;
-    setSaving(true);
-    try {
-      if (editId) {
-        const updatePayload: Record<string, unknown> = { name, description: "Updated from Admin" };
-        if (imagePreview && imagePreview.startsWith("data:image")) {
-          updatePayload.image = imagePreview;
-        }
-        const authToken = token();
-        const res = await fetch(`${api}/category/${editId}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json", Authorization: authToken },
-          body: JSON.stringify({ category: updatePayload }),
-        });
-        const data = await res.json();
-        if (data.success) {
-          setCategories(prev => prev.map(c =>
-            c._id === editId
-              ? { ...c, name, image: imagePreview && !imagePreview.startsWith("data:") ? imagePreview : c.image }
-              : c
-          ));
-          // refetch to get the new cloudinary URL
-          fetchCategories();
-          setShowModal(false);
-        } else {
-          alert((data.error || "Failed to save.") + (data.message ? "\n\n" + data.message : ""));
-        }
+  if (!name.trim()) return;
+  setSaving(true);
+  try {
+    if (editId) {
+      const authToken = token();
+      const uploadedImage = imagePreview && imagePreview.startsWith('data:')
+        ? await uploadToCloudinary(imagePreview)
+        : imagePreview;
+      const updatePayload: Record<string, unknown> = {
+        name,
+        description: "Updated from Admin",
+        ...(uploadedImage && { image: uploadedImage }),
+      };
+      const res = await fetch(`${api}/category/${editId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", Authorization: authToken },
+        body: JSON.stringify({ category: updatePayload }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setCategories(prev => prev.map(c =>
+          c._id === editId
+            ? { ...c, name, image: uploadedImage && !uploadedImage.startsWith('data:') ? uploadedImage : c.image }
+            : c
+        ));
+        fetchCategories();
+        setShowModal(false);
       } else {
-        const authToken = token();
-        const res = await fetch(`${api}/category/add`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Authorization: authToken },
-          body: JSON.stringify({
-            name,
-            description: "Added from Admin",
-            isActive: true,
-            image: imagePreview || undefined,
-          }),
-        });
-        const data = await res.json();
-        if (data.success) {
-          setCategories(prev => [...prev, data.category]);
-          setShowModal(false);
-        } else {
-          alert((data.error || "Failed to save.") + (data.message ? "\n\n" + data.message : ""));
-        }
+        alert((data.error || "Failed to save.") + (data.message ? "\n\n" + data.message : ""));
       }
-    } catch (e) { console.error(e); }
-    finally { setSaving(false); }
-  };
+    } else {
+      const authToken = token();
+      const uploadedImage = imagePreview && imagePreview.startsWith('data:')
+        ? await uploadToCloudinary(imagePreview)
+        : imagePreview;
+      const res = await fetch(`${api}/category/add`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: authToken },
+        body: JSON.stringify({
+          name,
+          description: "Added from Admin",
+          isActive: true,
+          ...(uploadedImage && { image: uploadedImage }),
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setCategories(prev => [...prev, data.category]);
+        setShowModal(false);
+      } else {
+        alert((data.error || "Failed to save.") + (data.message ? "\n\n" + data.message : ""));
+      }
+    }
+  } catch (e) { console.error(e); }
+  finally { setSaving(false); }
+};
 
   const remove = async (id: string) => {
     if (!confirm("Delete this category?")) return;

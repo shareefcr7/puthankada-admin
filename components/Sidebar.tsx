@@ -1,5 +1,6 @@
 "use client";
 import { useRouter, usePathname } from "next/navigation";
+import Image from "next/image";
 
 interface SidebarProps {
   isSidebarOpen: boolean;
@@ -94,8 +95,8 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: SidebarProp
           top: 0;
           width: 240px;
           height: 100vh;
-          background: #f5f5f5;
-          border-right: 1px solid #e0e0e0;
+          background: var(--surface-light, #f5f5f5);
+          border-right: 1px solid var(--border-light, #e0e0e0);
           display: flex;
           flex-direction: column;
           padding: 28px 0;
@@ -120,7 +121,7 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: SidebarProp
             height: 100%;
             transform: translateX(0);
             z-index: auto;
-            border-right: 1px solid #1e1e2e;
+            border-right: 1px solid var(--border-light, #1e1e2e);
             box-shadow: none;
             flex-shrink: 0;
           }
@@ -137,7 +138,7 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: SidebarProp
         /* Sidebar header/logo */
         .sidebar-header {
           padding: 0 24px 32px;
-          border-bottom: 1px solid #e0e0e0;
+          border-bottom: 1px solid var(--border-light, #e0e0e0);
           text-align: center;
         }
 
@@ -154,7 +155,7 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: SidebarProp
           height: 64px;
           object-fit: cover;
           border-radius: 50%;
-          border: 2px solid #2196F3;
+          border: 2px solid var(--puthankada-orange, #2196F3);
         }
 
         .sidebar-logo {
@@ -162,17 +163,17 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: SidebarProp
           font-size: 18px;
           font-weight: 800;
           letter-spacing: -0.02em;
-          color: #1a1a1a;
+          color: var(--text-primary, #1a1a1a);
           margin: 0;
         }
 
         .sidebar-logo-accent {
-          color: #4CAF50;
+          color: var(--puthankada-green, #4CAF50);
         }
 
         .sidebar-subtext {
           font-size: 10px;
-          color: #666666;
+          color: var(--text-secondary, #666666);
           margin-top: 2px;
           font-weight: 500;
           letter-spacing: 0.06em;
@@ -190,7 +191,7 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: SidebarProp
           font-size: 10px;
           font-weight: 700;
           letter-spacing: 0.12em;
-          color: #33334a;
+          color: var(--text-secondary, #33334a);
           padding: 0 24px 10px;
           text-transform: uppercase;
         }
@@ -205,29 +206,30 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: SidebarProp
           font-family: 'DM Sans', sans-serif;
           font-size: 14px;
           font-weight: 500;
-          color: #666666;
+          color: var(--text-primary, #666666);
           border-left: 3px solid transparent;
           user-select: none;
           letter-spacing: 0.01em;
           margin: 0 12px;
           border-radius: 0 8px 8px 0;
+          transition: all 0.2s ease;
         }
 
         .nav-item:hover {
-          color: #2196F3;
-          background: #f0f0f0;
-          border-left-color: #2196F3;
+          color: var(--puthankada-orange, #2196F3);
+          background: var(--accent-orange-soft, #f0f0f0);
+          border-left-color: var(--puthankada-orange, #2196F3);
         }
 
         .nav-item.active {
-          color: #2196F3;
-          background: #e3f2fd;
-          border-left-color: #2196F3;
+          color: var(--puthankada-orange, #2196F3);
+          background: var(--accent-orange-soft, #e3f2fd);
+          border-left-color: var(--puthankada-orange, #2196F3);
           font-weight: 600;
         }
 
         .nav-item.active svg {
-          color: #2196F3;
+          color: var(--puthankada-orange, #2196F3);
         }
 
         .nav-item svg {
@@ -238,7 +240,7 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: SidebarProp
         /* Sidebar footer */
         .sidebar-footer {
           padding: 20px 24px;
-          border-top: 1px solid #e0e0e0;
+          border-top: 1px solid var(--border-light, #e0e0e0);
           margin-top: auto;
         }
 
@@ -253,7 +255,7 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: SidebarProp
           width: 32px;
           height: 32px;
           border-radius: 50%;
-          background: linear-gradient(135deg, #2196F3, #4CAF50);
+          background: linear-gradient(135deg, var(--puthankada-orange, #2196F3), var(--puthankada-green, #4CAF50));
           display: flex;
           align-items: center;
           justify-content: center;
@@ -271,7 +273,7 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: SidebarProp
         .user-name {
           font-size: 13px;
           font-weight: 600;
-          color: #333333;
+          color: var(--text-primary, #333333);
           margin: 0;
           white-space: nowrap;
           overflow: hidden;
@@ -280,7 +282,7 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: SidebarProp
 
         .user-email {
           font-size: 11px;
-          color: #888888;
+          color: var(--text-secondary, #888888);
           margin: 0;
           white-space: nowrap;
           overflow: hidden;
@@ -290,7 +292,7 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: SidebarProp
         .logout-btn {
           padding: 12px 24px;
           cursor: pointer;
-          color: #666666;
+          color: var(--text-primary, #666666);
           border: none;
           background: transparent;
           border-radius: 8px;
@@ -299,15 +301,16 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: SidebarProp
           width: 100%;
           text-align: left;
           font-family: 'DM Sans', sans-serif;
+          transition: all 0.2s ease;
         }
 
         .logout-btn:hover {
-          color: #FF5252;
-          background: #ffebee;
+          color: var(--puthankada-orange, #FF5252);
+          background: var(--accent-orange-soft, #ffebee);
         }
 
         .logout-btn:active {
-          background: #ffcdd2;
+          background: var(--accent-orange-soft, #ffcdd2);
         }
 
         /* Mobile adjustments */
@@ -342,12 +345,12 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: SidebarProp
         }
 
         .sidebar::-webkit-scrollbar-thumb {
-          background: #2a2a38;
+          background: var(--border-light, #2a2a38);
           border-radius: 4px;
         }
 
         .sidebar::-webkit-scrollbar-thumb:hover {
-          background: #3a3a48;
+          background: var(--text-secondary, #3a3a48);
         }
       `}</style>
 
@@ -363,10 +366,12 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }: SidebarProp
         {/* Logo Section */}
         <div className="sidebar-header">
           <div className="sidebar-logo-container">
-            <img 
-              src="/images/puthan.jpg" 
-              alt="Puthankada Logo" 
+            <img
+              src="/puthankada-logo.png"
+              alt="Puthankada Logo"
               className="sidebar-logo-image"
+              width="64"
+              height="64"
             />
           </div>
           <h1 className="sidebar-logo">

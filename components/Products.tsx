@@ -122,6 +122,22 @@ export default function Products() {
     ));
   };
 
+  // Upload base64 image to Cloudinary (unsigned upload)
+  const uploadToCloudinary = async (dataUrl: string): Promise<string> => {
+    const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+    const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
+    if (!cloudName || !uploadPreset) return dataUrl; // Fallback to base64 if not configured
+    const form = new FormData();
+    form.append('file', dataUrl);
+    form.append('upload_preset', uploadPreset);
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, {
+      method: 'POST',
+      body: form,
+    });
+    const json = await res.json();
+    return json.secure_url || dataUrl;
+  };
+
   const removeImage = (vi: number, ii: number) => {
     setVariants(prev => prev.map((v, idx) =>
       idx === vi ? { ...v, images: v.images.filter((_, i) => i !== ii) } : v
@@ -174,23 +190,33 @@ export default function Products() {
     if (err) { setError(err); return; }
     setSaving(true); setError("");
 
+    // Before sending, upload any base64 images to Cloudinary and replace with URLs
+    const processedVariants = await Promise.all(variants.map(async (v) => {
+      const uploadedImages = await Promise.all(
+        v.images.map(async (img) => {
+          return img.startsWith('data:') ? await uploadToCloudinary(img) : img;
+        })
+      );
+      const vPrice = Number(v.price) || (v.sizes.length > 0 ? Number(v.sizes[0].price) : 0);
+      return {
+        ...v,
+        images: uploadedImages,
+        price: vPrice,
+        stock: Number(v.stock),
+        sizes: v.sizes.map(s => ({
+          ...s,
+          price: Number(s.price) || vPrice,
+          stock: Number(s.stock)
+        })),
+      };
+    }));
+
     const payload = {
-      name, description,
+      name,
+      description,
       category: categoryId || undefined,
       subcategory: subcategoryId || undefined,
-        variants: variants.map(v => {
-          const vPrice = Number(v.price) || (v.sizes.length > 0 ? Number(v.sizes[0].price) : 0);
-          return {
-            ...v,
-            price: vPrice,
-            stock: Number(v.stock),
-            sizes: v.sizes.map(s => ({
-              ...s,
-              price: Number(s.price) || vPrice,
-              stock: Number(s.stock)
-            }))
-          };
-        }),
+      variants: processedVariants,
     };
 
     try {
