@@ -271,7 +271,12 @@ export default function Products() {
     const res = await fetch(`${api}/product/delete/${id}`, {
       method: "DELETE", headers: { Authorization: token() },
     });
-    if (res.ok) setProducts(prev => prev.filter(p => p._id !== id));
+    if (res.ok) {
+        setProducts(prev => prev.filter(p => p._id !== id));
+      } else {
+        const errData = await res.json();
+        alert(errData.error || 'Failed to delete product');
+      }
   };
 
   const filtered = products.filter(p => p.name.toLowerCase().includes(search.toLowerCase()));
